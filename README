@@ -9,3 +9,4 @@ $> find . -name \*foo\* | xargs vim
 However if you do this instead your tty should be safe...
 $> find . -name \*foo\* | xvim
 
+
