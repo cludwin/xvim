@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	if (!isatty(fileno(stdin))) {
 		i=0;
 		buf = alloc_str(NULL);
-		while(c=getchar()) {
+		while((c=getchar())) {
 			if (c <=0 || c == EOF) break;
 			if (c == '\n') {
 				if (i>0) {
