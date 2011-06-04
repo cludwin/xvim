@@ -1,0 +1,11 @@
+xvim is a command line utility that provides a simple xargs-like wrapper around vim.
+
+It's goal is to eliminate those pesky "Warning: input not from terminal" messages that lead to a fubar'd tty.
+
+example:
+Bad things happen to your terminal when you...
+$> find . -name \*foo\* | xargs vim
+
+However if you do this instead your tty should be safe...
+$> find . -name \*foo\* | xvim
+
