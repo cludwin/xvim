@@ -87,12 +87,10 @@ int main(int argc, char *argv[])
 		while((c=getchar())) {
 			if (c <=0 || c == EOF) break;
 			if (c == '\n') {
-				if (i>0) {
-					args = append(args, buf);
-					buf  = alloc_str(NULL);
-					i    = 0;
-				}
-				continue;
+				if (i<=0) continue;
+				args = append(args, buf);
+				buf  = alloc_str(NULL);
+				i    = 0;
 			}
 			if (i>=len-1)
 				buf = alloc_str(buf);	
