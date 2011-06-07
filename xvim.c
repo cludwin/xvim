@@ -43,10 +43,7 @@ char** append(char **arr, char *str)
 {
 	static int size = 1;
 	size++;
-	if (arr == NULL)
-		arr = (char**)malloc(size*sizeof(char*));
-	else
-		arr = (char**)realloc(arr, size*sizeof(char*)); 
+	arr = (char**)realloc(arr, size*sizeof(char*)); 
 	if (arr == NULL) 
 		perror("malloc()");
 	arr[size-2] = str;
