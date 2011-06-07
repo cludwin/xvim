@@ -36,7 +36,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 extern char **environ;
 static int len;
 
-static void* ordie(void *p, char *msg) { if (p != NULL) return p; perror(msg); exit(1); }
+static void* ordie(void *p, char *msg) 
+/*
+ * Perl called and it wants this function back
+ */
+{
+	if (p != NULL) 
+		return p; 
+	perror(msg); 
+	exit(1); 
+}
 
 static char** append(char **arr, char *str)
 /*
