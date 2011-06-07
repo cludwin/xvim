@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 extern char **environ;
 static int len;
 
-static void die(char *msg) { perror(msg); exit(1); }
+static void* ordie(void *p, char *msg) { if (p != NULL) return p; perror(msg); exit(1); }
 
 static char** append(char **arr, char *str)
 /*
@@ -45,9 +45,7 @@ static char** append(char **arr, char *str)
 {
 	static int size = 1;
 	size++;
-	arr = (char**)realloc(arr, size*sizeof(char*)); 
-	if (arr == NULL) 
-		die("realloc");
+	arr = (char**)ordie(realloc(arr, size*sizeof(char*)), "realloc"); 
 	arr[size-2] = str;
 	arr[size-1] = 0;
 	return arr;
@@ -63,9 +61,7 @@ static char* alloc_str(char *str)
 	len = BUF_SIZE;
 	if (str != NULL)
 		len = strlen(str)*2;
-	ret = (char*)calloc(len, sizeof(char)); 
-	if (ret == NULL) 
-		die("calloc");
+	ret = (char*)ordie(calloc(len, sizeof(char)), "calloc"); 
 	if (str == NULL)
 		return ret;
 	ret = strcpy(ret, str);
@@ -103,8 +99,7 @@ int main(int argc, char *argv[])
 		if (i>0)
 			args = append(args, buf);
 	}
-	if(freopen(TTY, "r", stdin) == NULL)
-		die("freopen");
+	ordie(freopen(TTY, "r", stdin), "freopen");
 	execve(VIM, args, environ);
 	return 0;	
 }
