@@ -59,12 +59,9 @@ char* alloc_str(char *str)
 {
 	char *ret;
 	len = BUF_SIZE;
-	if (str == NULL)
-		ret = (char*)calloc(BUF_SIZE, sizeof(char));
-	else {
+	if (str != NULL)
 		len = strlen(str)*2;
-		ret = (char*)calloc(len, sizeof(char)); 
-	}
+	ret = (char*)calloc(len, sizeof(char)); 
 	if (ret == NULL) 
 		perror("malloc()");
 	if (str == NULL)
