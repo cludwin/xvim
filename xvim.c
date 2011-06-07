@@ -36,6 +36,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 extern char **environ;
 static int len;
 
+static void die(char *msg) { perror(msg); exit(1); }
+
 static char** append(char **arr, char *str)
 /*
  *  Grows a an array (char**) one string (char*) at a time
@@ -45,7 +47,7 @@ static char** append(char **arr, char *str)
 	size++;
 	arr = (char**)realloc(arr, size*sizeof(char*)); 
 	if (arr == NULL) 
-		perror("malloc()");
+		die("realloc");
 	arr[size-2] = str;
 	arr[size-1] = 0;
 	return arr;
@@ -63,7 +65,7 @@ static char* alloc_str(char *str)
 		len = strlen(str)*2;
 	ret = (char*)calloc(len, sizeof(char)); 
 	if (ret == NULL) 
-		perror("malloc()");
+		die("calloc");
 	if (str == NULL)
 		return ret;
 	ret = strcpy(ret, str);
@@ -102,7 +104,7 @@ int main(int argc, char *argv[])
 			args = append(args, buf);
 	}
 	if(freopen(TTY, "r", stdin) == NULL)
-		perror("freopen()");
+		die("freopen");
 	execve(VIM, args, environ);
 	return 0;	
 }
