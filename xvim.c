@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 extern char **environ;
 static int len;
 
-char** append(char **arr, char *str)
+static char** append(char **arr, char *str)
 /*
  *  Grows a an array (char**) one string (char*) at a time
  */
@@ -51,7 +51,7 @@ char** append(char **arr, char *str)
 	return arr;
 }
 
-char* alloc_str(char *str)
+static char* alloc_str(char *str)
 /*
  * Alloc and ZERO pad string (realloc if needed)
  */
