@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 extern char **environ;
 static int len;
 
-static void* ordie(void *p, char *msg) 
+static void* or_die(void *p, char *msg) 
 /*
  * Perl called and it wants this function back
  */
@@ -54,23 +54,22 @@ static char** append(char **arr, char *str)
 {
 	static int size = 1;
 	size++;
-	arr = (char**)ordie(realloc(arr, size*sizeof(char*)), "realloc"); 
+	arr = (char**)or_die(realloc(arr, size*sizeof(char*)), "realloc"); 
 	arr[size-2] = str;
 	arr[size-1] = 0;
 	return arr;
 }
 
-static char* alloc_str(char *str)
+static char* calloc_str(char *str)
 /*
  * Alloc and ZERO pad string (realloc if needed)
  */
-
 {
 	char *ret;
 	len = BUF_SIZE;
 	if (str != NULL)
 		len = strlen(str)*2;
-	ret = (char*)ordie(calloc(len, sizeof(char)), "calloc"); 
+	ret = (char*)or_die(calloc(len, sizeof(char)), "calloc"); 
 	if (str == NULL)
 		return ret;
 	ret = strcpy(ret, str);
@@ -90,25 +89,25 @@ int main(int argc, char *argv[])
 		args = append(args, argv[i]);
 	if (!isatty(fileno(stdin))) {
 		i=0;
-		buf = alloc_str(NULL);
+		buf = calloc_str(NULL);
 		while((c=getchar())) {
 			if (c <=0 || c == EOF) break;
 			if (c == '\n') {
 				if (i>0) {
 					args = append(args, buf);
-					buf  = alloc_str(NULL);
+					buf  = calloc_str(NULL);
 					i    = 0;
 				}
 				continue;
 			}
 			if (i>=len-1)
-				buf = alloc_str(buf);	
+				buf = calloc_str(buf);	
 			buf[i++] = (char)c;
 		}
 		if (i>0)
 			args = append(args, buf);
 	}
-	ordie(freopen(TTY, "r", stdin), "freopen");
+	or_die(freopen(TTY, "r", stdin), "freopen");
 	execve(VIM, args, environ);
 	return 0;	
 }
