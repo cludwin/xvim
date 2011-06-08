@@ -49,7 +49,7 @@ static void* or_die(void *p, char *msg)
 
 static char** append(char **arr, char *str)
 /*
- *  Grows a an array (char**) one string (char*) at a time
+ *  Grows an array (char**) one string (char*) at a time
  */
 {
 	static int size = 1;
