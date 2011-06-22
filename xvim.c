@@ -82,12 +82,13 @@ int main(int argc, char *argv[])
  * This program provides an xargs-like wrapper around vim 
  */
 {
-	int i, c;
+	int i, c, xargs=1;
 	char **args = NULL;
 	char *buf   = NULL;
+	if (argc>1 && strcmp("-", argv[1]) == 0) xargs=0;
 	for (i=0; i<argc; i++) 
 		args = append(args, argv[i]);
-	if (!isatty(fileno(stdin))) {
+	if (!isatty(fileno(stdin)) && xargs) {
 		i=0;
 		buf = calloc_str(NULL);
 		while((c=getchar())) {
@@ -107,7 +108,7 @@ int main(int argc, char *argv[])
 		if (i>0)
 			args = append(args, buf);
 	}
-	or_die(freopen(TTY, "r", stdin), "freopen");
+	if (xargs) or_die(freopen(TTY, "r", stdin), "freopen");
 	execve(VIM, args, environ);
 	return 0;	
 }
